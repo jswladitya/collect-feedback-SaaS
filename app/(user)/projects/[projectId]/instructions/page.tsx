@@ -1,10 +1,12 @@
 import CopyBtn from "@/components/copy-btn";
 
-const page = async ({ params }: {
-  params: {
-    projectId: string
-  }
-}) => {
+// Define the props to perfectly match the expected PageProps structure
+type Props = {
+  params: { projectId: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+const ProjectInstructionsPage = async ({ params }: Props) => {
   if (!params.projectId) return (<div>Invalid Project ID</div>);
   if (!process.env.WIDGET_URL) return (<div>Missing WIDGET_URL</div>);
 
@@ -24,4 +26,4 @@ const page = async ({ params }: {
   )
 }
 
-export default page;
+export default ProjectInstructionsPage;
