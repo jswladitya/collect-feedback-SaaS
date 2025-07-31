@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,11 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+        <Script
+          src="https://getfeedback-widget.vercel.app/widget.umd.js"
+          strategy="afterInteractive"
+        />
+         <my-widget project-id="2"></my-widget>
           {children}
         </body>
       </html>
