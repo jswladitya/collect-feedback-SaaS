@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import ReactDOM from "react-dom/client";
 import {
   ChevronRight,
@@ -27,6 +28,7 @@ import { feedbacks } from "@/db/schema";
 type Feedback = InferSelectModel<typeof feedbacks>;
 
 function Table(props: { data: Feedback[] }) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const rerender = React.useReducer(() => ({}), {})[1];
 
   const columns = React.useMemo<ColumnDef<Feedback>[]>(
