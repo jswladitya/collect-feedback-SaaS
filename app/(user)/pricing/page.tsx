@@ -7,37 +7,18 @@ import { Badge } from "@/components/ui/badge"
 export default function PricingPage() {
   const plans = [
     {
-      name: "Hobby",
-      icon: "⭐",
-      description: "The perfect starting place for your web app or personal project.",
-      price: "Free forever",
-      features: [
-        "50 API calls / month",
-        "60 second checks",
-        "Single-user account",
-        "5 monitors",
-        "Basic email support",
-      ],
-      buttonText: "Get started for free",
-      buttonVariant: "outline" as const,
-      popular: false,
-    },
-    {
-      name: "Pro",
+      name: "Life Time Access",
       icon: "⚡",
-      description: "Everything you need to build and scale your business.",
-      price: "$9",
-      priceSubtext: "one-time payment, lifetime access",
+      price: "$7",
       features: [
-        "Unlimited API calls",
-        "30 second checks",
-        "Multi-user account",
-        "10 monitors",
-        "Priority email support",
+        "Unlimited Projects",
+        "Unlimited Feedbacks",
+        "Priority Support",
+        "Access to new features",
       ],
-      buttonText: "Get Lifetime Access",
+      buttonText: "Get Access",
       buttonVariant: "default" as const,
-      popular: true,
+      popular: true,  
     },
   ]
 
@@ -45,22 +26,18 @@ export default function PricingPage() {
   <div className="min-h-screen bg-white py-6">
     <div className="max-w-2xl mx-auto px-4">
       {/* Header */}
-      <div className="text-center mb-8">
+      <div className="text-center mb-12">
         <Badge variant="secondary" className="mb-4 bg-white border border-gray-200">
           📊 Pricing Plans
         </Badge>
 
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-          Pick the perfect plan for your needs
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-700 mb-3">
+        Simple, one-time pricing for lifetime access. No subscriptions, no recurring fees.
         </h1>
-
-        <p className="text-base text-gray-600 mb-6 max-w-xl mx-auto">
-          Simple, one-time pricing for lifetime access. No subscriptions, no recurring fees.
-        </p>
       </div>
 
       {/* Pricing Cards */}
-      <div className="grid md:grid-cols-2 gap-6 mx-auto">
+      <div className="gap-6 mx-auto md:h-[60vh] md:w-[20vw]">
         {plans.map((plan) => (
           <Card
             key={plan.name}
@@ -77,16 +54,14 @@ export default function PricingPage() {
             <CardHeader className="text-center pb-3 space-y-2">
               <div className="text-xl mb-1">{plan.icon}</div>
               <h3 className="text-lg font-bold text-gray-900">{plan.name}</h3>
-              <p className="text-xs text-gray-600">{plan.description}</p>
 
               <div>
-                {plan.name === "Pro" ? (
+                {plan.name === "Life Time Access" ? (
                   <>
                     <div className="text-2xl font-bold text-gray-900">{plan.price}</div>
-                    <div className="text-xs text-gray-600">{plan.priceSubtext}</div>
                   </>
                 ) : (
-                  <div className="text-xl font-bold text-gray-900">{plan.price}</div>
+                  <div className="text-2xl font-bold text-gray-900">{plan.price}</div>
                 )}
               </div>
             </CardHeader>

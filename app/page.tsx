@@ -22,6 +22,9 @@ export default function Home() {
 
             {/* Main CTA Button */}
             <div className="flex items-center">
+              <Link href="/pricing">
+                <span className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors mr-3">Pricing</span>
+              </Link>
               <Link
                 href="/dashboard"
                 className="group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 bg-neutral-900 text-white hover:bg-neutral-700 hover:text-slate-100 active:bg-neutral-800 active:text-slate-300 focus-visible:outline-neutral-900 transition-colors duration-200"
@@ -87,26 +90,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-
-      {/* ===== MINIMAL FOOTER ===== */}
-      <footer className="bg-neutral-50 border-t border-neutral-200/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-8">
-            <p className="text-sm text-neutral-500">
-              &copy; {new Date().getFullYear()} Get Feedback Inc. All rights
-              reserved.
-            </p>
-            <div className="flex items-center gap-x-6">
-              <Link
-                href="/pricing"
-                className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors"
-              >
-                Pricing
-              </Link>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

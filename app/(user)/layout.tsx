@@ -1,8 +1,7 @@
 import Loading from "./Loading";
 import { Suspense } from "react";
 import Link from "next/link";
-import { SignOutButton, UserButton } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
+import { UserButton } from "@clerk/nextjs";
 
 export default function UserLayout({
   children,
@@ -17,7 +16,7 @@ export default function UserLayout({
             {/* Logo */}
             <Link
               href="/"
-              className="text-xl font-medium tracking-tight text-zinc-900"
+              className="text-xl font-medium tracking-tight text-zinc-900 font-serif"
             >
               Get Feedbacks
             </Link>
@@ -31,13 +30,6 @@ export default function UserLayout({
                 Pricing
               </Link>
               <UserButton />
-          
-                <SignOutButton>
-                  <Button className="text-sm font-semibold">
-                    Sign Out
-                  </Button>
-                </SignOutButton>
-          
             </nav>
           </div>
         </div>
