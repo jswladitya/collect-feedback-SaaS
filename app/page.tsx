@@ -1,101 +1,112 @@
-import { SignedIn, SignedOut, SignInButton } from '@clerk/nextjs';
-import Link from 'next/link';
+"use client";
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+import Link from "next/link";
+import { VideoHero } from "@/components/VideoHero";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <>
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-100/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="text-xl font-medium tracking-tight text-zinc-900">
-            Get Feedbacks
-          </Link>
-
-          {/* Desktop links only */}
-          <nav className="flex items-center space-x-8">
-            <Link href="#" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition">
-              Pricing
-            </Link>
+    <div className="bg-white text-neutral-800 antialiased">
+      {/* ===== NAVBAR ===== */}
+      <header className="sticky top-0 z-5 backdrop-blur-lg border-white/100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
             <Link
-              href="/dashboard"
-              className="text-sm font-semibold text-white bg-zinc-900 px-5 py-2 rounded-full hover:bg-zinc-800 transition"
+              href="/"
+              className="text-xl font-serif tracking-tight text-neutral-900"
             >
-              <SignedOut>
-                <SignInButton>
-                  Sign In
-                </SignInButton>
-              </SignedOut>
-
-              <SignedIn>
-                Dashboard
-              </SignedIn>
+              Get Feedback
             </Link>
-          </nav>
-        </div>
-      </div>
-    </header>
-    <main className="relative isolate bg-white px-4 md:px-6 lg:px-8 py-20 md:py-26">
-      {/* Subtle watermark */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <svg
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] h-[30rem] opacity-[0.03]"
-          viewBox="0 0 200 200"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M100 0C100 55.2 144.8 100 200 100C144.8 100 100 144.8 100 200C100 144.8 55.2 100 0 100C55.2 100 100 55.2 100 0Z"
-            fill="#A78BFA"
-          />
-        </svg>
-      </div>
 
-      {/* Hero Section */}
-      <section className="max-w-5xl mx-auto">
-        <div className="flex flex-col items-center text-center space-y-4 md:space-y-5">
-          {/* Customer Stats */}
-          <div className="hidden items-center gap-3 text-sm font-medium text-zinc-500">
-            <div className="flex -space-x-3">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="w-9 h-9 rounded-full border-2 border-white bg-gradient-to-br from-zinc-200 to-zinc-300 backdrop-blur-sm shadow-sm"
-                />
-              ))}
+            {/* Main CTA Button */}
+            <div className="flex items-center">
+              <Link
+                href="/dashboard"
+                className="group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 bg-neutral-900 text-white hover:bg-neutral-700 hover:text-slate-100 active:bg-neutral-800 active:text-slate-300 focus-visible:outline-neutral-900 transition-colors duration-200"
+              >
+                <SignedOut>
+                  <SignInButton>Get Started</SignInButton>
+                </SignedOut>
+                <SignedIn>
+                  <span>Dashboard</span>
+                  <ArrowRight className="inline-block w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1" />
+                </SignedIn>
+              </Link>
             </div>
-            <span>
-              <span className="font-semibold text-zinc-900">1K+</span> Happy clients
-            </span>
           </div>
-
-          {/* Main Heading */}
-          <h1 className="text-4xl md:text-7xl lg:text-7xl font-serif font-medium leading-[1.1] tracking-tight text-zinc-900 max-w-3xl">
-          Collect feedbacks directly from your visitors
-          </h1>
-
-          {/* CTA Button */}
-          <Link
-            href="#"
-            className="group inline-flex items-center justify-center rounded-full bg-amber-500 text-white font-semibold py-1 px-4 text-lg shadow-lg shadow-amber-500/20 transition-all duration-300 hover:bg-amber-600 hover:shadow-xl hover:shadow-amber-600/30 active:scale-95"
-          >
-            Get Started
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="ml-2 w-3 md:w-5 h-3 md:h-3 transition-transform group-hover:translate-x-1"
-            >
-              <path
-                fillRule="evenodd"
-                d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </Link>
         </div>
-      </section>
-    </main>
-    </>
+      </header>
+
+      <main className="relative isolate overflow-hidden">
+        {/* Subtle background gradient */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 transform-gpu overflow-hidden"
+        >
+          <div
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[150%] aspect-square"
+            style={{
+              clipPath: "circle(50% at 50% 0)",
+            }}
+          />
+        </div>
+
+        {/* ===== HERO SECTION ===== */}
+        <section className="py-18 sm:py-32">
+          <div className="max-w-6xl mx-auto px-3 lg:px-12 text-center">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl tracking-tight text-neutral-900 leading-tight font-serif font-medium">
+              Collect Feedback,
+              <br />
+              <span className="text-orange-700">
+                Directly from your visitors.
+              </span>
+            </h1>
+            <div className="mt-5 flex items-center justify-center">
+              <Link href="/dashboard">
+                <Button className="flex items-center gap-2 group">
+                  Get started
+                  <ArrowRight className="inline-block w-3 h-3 ml-2 transition-transform duration-300 group-hover:translate-x-1.5" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== VIDEO HERO SECTION ===== */}
+        <section className="pb-12 sm:pb-24 mt-10">
+          <div className="max-w-6xl mx-auto px-6 lg:px-12">
+            {/* The negative margin pulls the video up for a more dynamic layout */}
+            <div className="mt-[-4rem] sm:mt-[-8rem] p-1.5 bg-gradient-to-br from-orange-200 via-orange-200 to-orange-200 rounded-2xl shadow-2xl shadow-neutral-900/10">
+              <div className="bg-neutral-800 rounded-xl overflow-hidden">
+                {/* Your VideoHero component will be rendered here */}
+                <VideoHero />
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* ===== MINIMAL FOOTER ===== */}
+      <footer className="bg-neutral-50 border-t border-neutral-200/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-8">
+            <p className="text-sm text-neutral-500">
+              &copy; {new Date().getFullYear()} Get Feedback Inc. All rights
+              reserved.
+            </p>
+            <div className="flex items-center gap-x-6">
+              <Link
+                href="/pricing"
+                className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors"
+              >
+                Pricing
+              </Link>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }
