@@ -15,7 +15,7 @@ export default async function Page() {
 
   return (
     <main className="p-4">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-2">
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">My Projects</h1>
         </div>

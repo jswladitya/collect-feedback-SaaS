@@ -35,7 +35,7 @@ export default function UserLayout({
         </div>
       </header>
       <Suspense fallback={<Loading />}>
-      <div className="p-3 md:p-15">
+      <div className="p-3 md:p-9">
       {children}
       </div>
       </Suspense>

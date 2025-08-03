@@ -16,7 +16,7 @@ const ProjectsList = (props: Props) => {
     return (
       <div className="text-center">
         <h2 className="text-2xl font-semibold">No Projects Yet</h2>
-        <p className="text-muted-foreground mt-2">
+        <p className="text-muted-foreground">
           Click on the &quot;New Project&quot; button to get started.
         </p>
       </div>

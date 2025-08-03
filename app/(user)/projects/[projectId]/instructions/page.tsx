@@ -40,7 +40,7 @@ const ProjectInstructionsPage = async ({ params }: PageProps) => {
 
   return (
     <div>
-      <h1 className="text-xl font-bold mb-2">Step 1: Embed the code in your site</h1>
+      <h1 className="text-xl font-bold mb-2">Embed the highlighted code in your site</h1>
 
       <div className="rounded-md mt-6 relative">
         <CodeBlock
