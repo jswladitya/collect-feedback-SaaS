@@ -34,7 +34,7 @@ export default function RootLayout({
           src="https://getfeedback-widget.vercel.app/widget.umd.js"
           strategy="afterInteractive"
         />
-         <my-widget project-id="9"></my-widget>
+         <my-widget project-id="12"></my-widget>
           {children}
         </body>
       </html>
