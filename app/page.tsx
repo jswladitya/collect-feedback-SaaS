@@ -57,7 +57,7 @@ export default function Home() {
         </div>
 
         {/* ===== HERO SECTION ===== */}
-        <section className="py-18 sm:py-32">
+        <section className="py-13 sm:py-24">
           <div className="max-w-6xl mx-auto px-3 lg:px-12 text-center">
             <h1 className="text-3xl md:text-5xl lg:text-6xl tracking-tight text-neutral-900 leading-tight font-serif font-medium">
               Collect Feedback,
@@ -78,7 +78,7 @@ export default function Home() {
         </section>
 
         {/* ===== VIDEO HERO SECTION ===== */}
-        <section className="pb-12 sm:pb-24 mt-10">
+        <section className="pb-12 sm:pb-24 mt-16 md:mt-20">
           <div className="max-w-6xl mx-auto px-6 lg:px-12">
             {/* The negative margin pulls the video up for a more dynamic layout */}
             <div className="mt-[-4rem] sm:mt-[-8rem] p-1.5 bg-gradient-to-br from-orange-200 via-orange-200 to-orange-200 rounded-2xl shadow-2xl shadow-neutral-900/10">

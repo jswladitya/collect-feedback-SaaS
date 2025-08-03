@@ -18,8 +18,8 @@ const NewProjBtn = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="rounded-full">
-          <Plus className="w-4 h-4" />
+        <Button>
+          Create New
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] rounded-md">
@@ -48,7 +48,7 @@ const NewProjBtn = () => {
               placeholder="Description (optional)"
             />
           </div>
-          <SubmitButton />{" "}
+          <SubmitButton />
         </form>
       </DialogContent>
     </Dialog>

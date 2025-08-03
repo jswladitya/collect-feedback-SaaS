@@ -14,12 +14,14 @@ export default async function Page() {
   const userProjects = await db.select().from(projects).where(eq(projects.userId, userId));
 
   return (
-    <div>
-      <div className="flex items-center justify-center gap-3">
-        <h1 className="text-3xl font-bold text-center my-4">Your Projects</h1>
+    <main className="p-4">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">My Projects</h1>
+        </div>
         <NewProjBtn />
       </div>
       <ProjectsList projects={userProjects} />
-    </div>
+    </main>
   )
 }

@@ -18,7 +18,7 @@ export default function UserLayout({
               href="/"
               className="text-xl font-medium tracking-tight text-zinc-900 font-serif"
             >
-              Get Feedbacks
+              Get Feedback
             </Link>
 
             {/* Desktop links only */}
