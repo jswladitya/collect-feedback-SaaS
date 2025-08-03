@@ -1,279 +1,165 @@
 "use client";
-import React from "react";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import ReactDOM from "react-dom/client";
-import {
-  ChevronRight,
-  ChevronLeft,
-  ChevronsRight,
-  ChevronsLeft,
-} from "lucide-react";
-
-import {
-  Column,
-  ColumnDef,
-  PaginationState,
-  Table as TanstackTable,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-
+import React, { useState } from "react";
 import { InferSelectModel } from "drizzle-orm";
 import { feedbacks } from "@/db/schema";
+import { Copy, Check } from 'lucide-react';
+import { Meteors } from "@/components/ui/meteors";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 type Feedback = InferSelectModel<typeof feedbacks>;
 
-function Table(props: { data: Feedback[] }) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const rerender = React.useReducer(() => ({}), {})[1];
+const ITEMS_PER_PAGE = 6;
 
-  const columns = React.useMemo<ColumnDef<Feedback>[]>(
-    () => [
-      {
-        accessorKey: "userName",
-        header: "First Name",
-        cell: (info) => info.getValue(),
-        footer: (props) => props.column.id,
-      },
-      {
-        accessorFn: (row) => row.userEmail,
-        id: "userEmail",
-        cell: (info) => info.getValue(),
-        header: () => <span>Email</span>,
-        footer: (props) => props.column.id,
-      },
-      {
-        accessorKey: "message",
-        header: () => "Message",
-        footer: (props) => props.column.id,
-        size: 400,
-        minSize: 200,
-        maxSize: 600,
-      },
-    ],
-    []
-  );
+const FeedbackCard = ({ feedback }: { feedback: Feedback }) => {
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (feedback.userEmail) {
+      navigator.clipboard.writeText(feedback.userEmail);
+      setIsCopied(true);
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 2000);
+    }
+  };
 
   return (
-    <>
-      <MyTable
-        {...{
-          data: props.data,
-          columns,
-        }}
-      />
-      <hr />
-    </>
-  );
-}
-
-function MyTable({
-  data,
-  columns,
-}: {
-  data: Feedback[];
-  columns: ColumnDef<Feedback>[];
-}) {
-  const [pagination, setPagination] = React.useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
-
-  const table = useReactTable({
-    columns,
-    data,
-    debugTable: true,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: setPagination,
-    //no need to pass pageCount or rowCount with client-side pagination as it is calculated automatically
-    state: {
-      pagination,
-    },
-    // autoResetPageIndex: false, // turn off page index reset when sorting or filtering
-  });
-
-  return (
-    <div className="p-2 mt-5">
-      <div className="h-2" />
-      <table className="w-full">
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="border-b border-slate-300">
-              {headerGroup.headers.map((header) => {
-                return (
-                  <th
-                    key={header.id}
-                    className="text-left bg-gray-50 rounded-t-md p-4"
-                    colSpan={header.colSpan}
-                  >
-                    <div
-                      {...{
-                        className: header.column.getCanSort()
-                          ? "cursor-pointer select-none"
-                          : "",
-                        onClick: header.column.getToggleSortingHandler(),
-                      }}
-                    >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                      {{
-                        asc: " 🔼",
-                        desc: " 🔽",
-                      }[header.column.getIsSorted() as string] ?? null}
-                      {header.column.getCanFilter() ? (
-                        <div className="mt-2">
-                          <Filter column={header.column} table={table} />
-                        </div>
-                      ) : null}
-                    </div>
-                  </th>
-                );
-              })}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => {
-            return (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => {
-                  return (
-                    <td
-                      key={cell.id}
-                      className="p-4 border-b"
-                      style={{
-                        width: cell.column.getSize(),
-                      }}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <div className="h-2" />
-      <div className="flex items-center gap-2">
-        <button
-          className="border rounded p-1 bg-gray-50 cursor-pointer"
-          onClick={() => table.firstPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          <ChevronsLeft />
-        </button>
-        <button
-          className="border rounded p-1 bg-gray-50 cursor-pointer"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          <ChevronLeft />
-        </button>
-        <button
-          className="border rounded p-1 bg-gray-50 cursor-pointer"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          <ChevronRight />
-        </button>
-        <button
-          className="border rounded p-1 bg-gray-50 cursor-pointer"
-          onClick={() => table.lastPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          <ChevronsRight />
-        </button>
-        <span className="flex items-center gap-1">
-          | Go to page:
-          <input
-            type="number"
-            defaultValue={table.getState().pagination.pageIndex + 1}
-            onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              table.setPageIndex(page);
-            }}
-            className="border p-1 rounded w-16"
-          />
-        </span>
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
+  <AlertDialog>
+    <AlertDialogTrigger asChild>
+      <div className="relative w-full cursor-pointer">
+        <div className="absolute inset-0 h-full w-full scale-[0.80] transform rounded-full" />
+        <div className="relative flex h-full flex-col items-start justify-end overflow-hidden rounded-2xl border border-gray-800 bg-gray-900 px-4 py-8 shadow-xl">
+          <h1 className="relative z-50 text-lg font-bold text-white">Name: {feedback.userName}</h1>
+          <div className="relative z-50 mb-4 flex w-full items-center justify-between">
+            <span className="truncate text-sm font-normal text-slate-400">Email: {feedback.userEmail || "Not provided"}</span>
+            {feedback.userEmail && (
+              <button
+                onClick={handleCopy}
+                className="rounded-lg p-1.5 transition-colors hover:bg-gray-700"
+                aria-label="Copy email"
+              >
+                {isCopied ? (
+                  <Check className="h-4 w-4 text-green-500" />
+                ) : (
+                  <Copy className="h-4 w-4 text-gray-400" />
+                )}
+              </button>
+            )}
+          </div>
+          <p className="relative z-50 text-base font-normal text-slate-300 truncate">Feedback: {feedback.message}</p>
+          <Meteors number={10} />
+        </div>
       </div>
-    </div>
+    </AlertDialogTrigger>
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogTitle>Feedback</AlertDialogTitle>
+        <AlertDialogDescription className="py-4 text-base">
+          {feedback.message}
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Close</AlertDialogCancel>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
   );
-}
+};
 
-function Filter({
-  column,
-  table,
-}: {
-  column: Column<Feedback, unknown>;
-  table: TanstackTable<Feedback>;
-}) {
-  const firstValue = table
-    .getPreFilteredRowModel()
-    .flatRows[0]?.getValue(column.id);
+function Table({ data }: { data: Feedback[] }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
 
-  const columnFilterValue = column.getFilterValue();
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
-  return typeof firstValue === "number" ? (
-    <div className="flex space-x-2" onClick={(e) => e.stopPropagation()}>
-      <input
-        type="number"
-        value={(columnFilterValue as [number, number])?.[0] ?? ""}
-        onChange={(e) =>
-          column.setFilterValue((old: [number, number]) => [
-            e.target.value,
-            old?.[1],
-          ])
-        }
-        placeholder={`Min`}
-        className="w-24 border shadow rounded"
-      />
-      <input
-        type="number"
-        value={(columnFilterValue as [number, number])?.[1] ?? ""}
-        onChange={(e) =>
-          column.setFilterValue((old: [number, number]) => [
-            old?.[0],
-            e.target.value,
-          ])
-        }
-        placeholder={`Max`}
-        className="w-24 border shadow rounded"
-      />
+  const paginatedData = data.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const renderPagination = () => {
+    const pageNumbers = [];
+    const ellipsis = <PaginationEllipsis key="ellipsis" />;
+
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <PaginationItem key={i}>
+          <PaginationLink href="#" isActive={currentPage === i} onClick={() => handlePageChange(i)}>
+            {i}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+
+    if (totalPages <= 5) {
+      return pageNumbers;
+    }
+
+    const startPages = pageNumbers.slice(0, 2);
+    const endPages = pageNumbers.slice(totalPages - 2, totalPages);
+
+    if (currentPage > 2 && currentPage < totalPages - 1) {
+      return [
+        ...startPages,
+        ellipsis,
+        pageNumbers[currentPage - 1],
+        ellipsis,
+        ...endPages,
+      ];
+    } else if (currentPage <= 2) {
+      return [...startPages, ellipsis, ...endPages];
+    } else {
+      return [...startPages, ellipsis, ...endPages];
+    }
+  };
+
+  return (
+    <div className="mt-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {paginatedData.map((feedback) => (
+          <FeedbackCard key={feedback.id} feedback={feedback} />
+        ))}
+      </div>
+
+      {totalPages > 1 && (
+        <div className="mt-8">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" onClick={() => handlePageChange(currentPage - 1)} />
+              </PaginationItem>
+              {renderPagination()}
+              <PaginationItem>
+                <PaginationNext href="#" onClick={() => handlePageChange(currentPage + 1)} />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      )}
     </div>
-  ) : (
-    <input
-      className="w-36 border shadow rounded p-1 text-slate-800 font-thin"
-      onChange={(e) => column.setFilterValue(e.target.value)}
-      onClick={(e) => e.stopPropagation()}
-      placeholder={`Search...`}
-      type="text"
-      value={(columnFilterValue ?? "") as string}
-    />
   );
 }
 
